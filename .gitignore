@@ -1,0 +1,23 @@
+#.gitignore for Java projects (using eclipse)
+
+# Windows
+# thumbnails
+Thumbs.db
+
+# GIT
+.git/
+
+# Java
+*.class
+
+# Eclipse
+.settings/
+.buildpath
+.classpath
+.project
+
+# Logging
+*.log
+
+# jME (binaries)
+*.so
