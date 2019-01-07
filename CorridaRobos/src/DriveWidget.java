@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 public class DriveWidget extends JComponent
 {
 	protected static final float speed = 0.2f;
-	protected static final float rotSpeed = 2f;
+	protected static final float rotSpeed = 0.5f;
 	
 	protected final Robot robot;
 

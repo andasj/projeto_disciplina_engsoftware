@@ -17,23 +17,19 @@ public class MainFrame extends JFrame
 {
 	protected final ConnectWidget connectComponent;
 	protected final DriveWidget driveComponent;
-	protected final CameraWidget cameraComponent;
-	protected final ConsoleWidget consoleComponent;
+	protected final MapWidget consoleComponent;
 	
 	protected final JPanel centerPanel;
 
 	public MainFrame(Robot robot)
-	{
+	{	
 		connectComponent = new ConnectWidget(robot);
 		driveComponent = new DriveWidget(robot);
-		cameraComponent = new CameraWidget(robot);
-		consoleComponent = new ConsoleWidget();
+		consoleComponent = new MapWidget();
 		
 		centerPanel = new JPanel();
 		centerPanel.setLayout( new BoxLayout(centerPanel, BoxLayout.X_AXIS) );
 		centerPanel.add( driveComponent );
-		centerPanel.add(Box.createRigidArea(new Dimension(15, 0)));
-		centerPanel.add( cameraComponent );
 
 		Container content = getContentPane();
 		content.setLayout( new BoxLayout(content, BoxLayout.Y_AXIS) );

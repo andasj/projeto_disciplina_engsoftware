@@ -17,6 +17,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.XYZDataset;
 import org.jfree.util.ShapeUtilities;
 
 
@@ -30,34 +31,35 @@ import org.jfree.util.ShapeUtilities;
 
 public class MapWidget extends JComponent {
 	protected JFreeChart map;
-	public XYSeries lineData, series;
+	public XYSeries pathPoints, goalPoints, bestPathPoints;
+	public XYZDataset bestPathData;
 	public XYSeriesCollection dataset;
 	Shape goal = ShapeUtilities.createDiagonalCross(3, 1);
-	final double size = 10.0;
+	final double sizeField = 5.0, sizeMap = 10.0;
 	double xRef=0, yRef = 0;
 	
 	public MapWidget() {
 		dataset = new XYSeriesCollection();
 
-		lineData = new XYSeries("Line Plot");
-		dataset.addSeries(lineData);
+		pathPoints = new XYSeries("Line Plot");
+		dataset.addSeries(pathPoints);
 
 //		// scatter plot
-		XYSeries series = new XYSeries("");
-		series.add(size, size);
-		dataset.addSeries(series);
+		goalPoints = new XYSeries("");
+		goalPoints.add(-sizeField, sizeField);
+		dataset.addSeries(goalPoints);
 
 		map = ChartFactory.createXYLineChart("Robot path", "x (m)", "y (m)", dataset);
 		
 		XYPlot plot = (XYPlot) map.getPlot();
 		NumberAxis domain = (NumberAxis) plot.getDomainAxis();
-        domain.setRange(-size, size);
-        domain.setTickUnit(new NumberTickUnit(size/10));
+        domain.setRange(-sizeMap, sizeMap);
+        domain.setTickUnit(new NumberTickUnit(sizeMap/10));
         
         domain.setVerticalTickLabels(true);
         NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(-size, size);
-        range.setTickUnit(new NumberTickUnit(size/5));
+        range.setRange(-sizeMap, sizeMap);
+        range.setTickUnit(new NumberTickUnit(sizeMap/5));
 		
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
@@ -136,12 +138,12 @@ public class MapWidget extends JComponent {
 					// if it is new information
 					if ((x != xNow) && (y != yNow)) {
 						try{
-							path.add(-signal*yNow, signal*xNow);
+							pathPoints.add(-signal*yNow, signal*xNow);
 						}
 						catch(Exception e){
 							System.err.println(e.getMessage());
 							
-							path = new XYSeries("Path");
+							//path = new XYSeries("Path");
 							
 						}
 					}
@@ -160,9 +162,9 @@ public class MapWidget extends JComponent {
 					if (toUpdate) {
 						// update chart
 						dataset.removeAllSeries();
-						dataset.addSeries(path);
+						dataset.addSeries(pathPoints);
 //						series.add(2, 2);
-//						dataset.addSeries(series);
+						dataset.addSeries(goalPoints);
 
 						toUpdate = false;
 						// textArea.append(str);
