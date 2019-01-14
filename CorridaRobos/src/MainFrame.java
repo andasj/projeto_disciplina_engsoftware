@@ -1,7 +1,11 @@
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -21,11 +25,11 @@ public class MainFrame extends JFrame
 	
 	protected final JPanel centerPanel;
 
-	public MainFrame(Robot robot)
+	public MainFrame(Robot robot, RobotMaze mazeInfo)
 	{	
 		connectComponent = new ConnectWidget(robot);
-		driveComponent = new DriveWidget(robot);
-		consoleComponent = new MapWidget();
+		driveComponent = new DriveWidget(robot, mazeInfo);
+		consoleComponent = new MapWidget(mazeInfo);
 		
 		centerPanel = new JPanel();
 		centerPanel.setLayout( new BoxLayout(centerPanel, BoxLayout.X_AXIS) );
@@ -46,6 +50,14 @@ public class MainFrame extends JFrame
 		setLocation( (d.width - dGuiSize.width) / 2, (d.height - dGuiSize.height) / 2 );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+		try {
+            URL resource = getClass().getResource("icons/headrobot.png");
+            BufferedImage image = ImageIO.read(resource);
+            setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
 		setVisible( true );
 	}
 }

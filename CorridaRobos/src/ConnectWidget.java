@@ -97,13 +97,10 @@ public class ConnectWidget extends JComponent
 				onDisconnected();			
 		}
 
-		@Override
-		public void onImageReceived(Image img)
-		{
-		}
 
 		@Override
 		public void onOdometryReceived(double x, double y, double phi) {
+						
 			if(firstReading){
 				xRef = x;
 				yRef = y;

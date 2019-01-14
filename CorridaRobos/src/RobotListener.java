@@ -8,6 +8,5 @@ public interface RobotListener
 	void onConnected();
 	void onDisconnected();
 	void onError(String error);
-	void onImageReceived(Image img);
 	void onOdometryReceived(double x, double y, double phi);
 }

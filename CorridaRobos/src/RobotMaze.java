@@ -1,20 +1,42 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class RobotMaze {
-	double fieldSize = 10;
+	double fieldSize = 5.0;
 	int obstaclesAmount;
 	double[] obstaclesPosition;
-	double[] goalPosition;
-	double[] bestPath;
+	private double xGoalPosition;
+	private double yGoalPosition;
+	List<Point> path = new ArrayList<Point>();
 	
-	public RobotMaze(double fieldSize, double[] goalPosition) {
+	
+	
+	public RobotMaze(double fieldSize, double x, double y) {
 		super();
 		this.fieldSize = fieldSize;
-		this.goalPosition = goalPosition;
+		this.xGoalPosition = x;
+		this.yGoalPosition = y;
 	}
 	
 	public double getFieldSize() {
 		return fieldSize;
 	}
+	public double getxGoalPosition() {
+		return xGoalPosition;
+	}
+
+	public void setxGoalPosition(double xGoalPosition) {
+		this.xGoalPosition = xGoalPosition;
+	}
+
+	public double getyGoalPosition() {
+		return yGoalPosition;
+	}
+
+	public void setyGoalPosition(double yGoalPosition) {
+		this.yGoalPosition = yGoalPosition;
+	}
+
 	public void setFieldSize(double fieldSize) {
 		this.fieldSize = fieldSize;
 	}
@@ -30,17 +52,23 @@ public class RobotMaze {
 	public void setObstaclesPosition(double[] obstaclesPosition) {
 		this.obstaclesPosition = obstaclesPosition;
 	}
-	public double[] getGoalPosition() {
-		return goalPosition;
+
+	public void updateBestPath(double x, double y, double phi){
+		Point currentPoint = new Point(x,y,phi);
+		
+		path.add(currentPoint);
 	}
-	public void setGoalPosition(double[] goalPosition) {
-		this.goalPosition = goalPosition;
+	
+	public void resetBestPath(){
+		path.clear();
 	}
-	public double[] getBestPath() {
-		return bestPath;
+
+	public List<Point> getPath() {
+		return path;
 	}
-	public void setBestPath(double[] bestPath) {
-		this.bestPath = bestPath;
+
+	public void setPath(List<Point> path) {
+		this.path = path;
 	}
 	
 }
