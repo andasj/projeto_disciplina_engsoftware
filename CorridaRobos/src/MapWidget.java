@@ -65,12 +65,12 @@ public class MapWidget extends JComponent {
 		
 		XYPlot plot = (XYPlot) map.getPlot();
 		NumberAxis domain = (NumberAxis) plot.getDomainAxis();
-        domain.setRange(-sizeMap, sizeMap);
+        domain.setRange(-sizeMap,0.3 );
         domain.setTickUnit(new NumberTickUnit(sizeMap/10));
         
         domain.setVerticalTickLabels(true);
         NumberAxis range = (NumberAxis) plot.getRangeAxis();
-        range.setRange(-sizeMap, sizeMap);
+        range.setRange(-0.3, sizeMap);
         range.setTickUnit(new NumberTickUnit(sizeMap/5));
 		
 		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
@@ -154,7 +154,7 @@ public class MapWidget extends JComponent {
 					// if it is new information
 					if ((x != xNow) && (y != yNow)) {
 						try{
-							pathPoints.add(-signal*yNow, signal*xNow);
+							pathPoints.add(-yNow, xNow);
 							mazeInfo.updateBestPath(yNow, xNow, phi);
 						}
 						catch(Exception e){
