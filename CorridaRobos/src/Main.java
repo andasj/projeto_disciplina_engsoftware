@@ -11,7 +11,7 @@ public class Main
 		} 
 		catch (Exception e) { }
     
-    	MainFrame frame = new MainFrame(new Robot(), new RobotMaze(5,4.1,1.5));
+    	MainFrame frame = new MainFrame(new Robot(), new RobotMaze(5,4.2,1.2));//4.1,1.2
     	frame.setTitle( "Robotino Maze Race" );
         
         System.out.println("Welcome to the GUI example.");
