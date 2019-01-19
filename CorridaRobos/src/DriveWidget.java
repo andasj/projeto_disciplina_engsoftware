@@ -45,8 +45,6 @@ public class DriveWidget extends JComponent
 		this.robot = robot;
 		this.mazeInfo = mazeInfo;
 		setLayout(new GridLayout(3, 5));
-		JButton buttonKnowledgeTour = new JButton("Knowledge Tour");
-		buttonKnowledgeTour.addActionListener( new ButtonListener(TourAction.KNOWLEDGE, this) );
 		add(new JLabel());
 		
 		JButton buttonLearningTour = new JButton("Learning Tour");
@@ -57,7 +55,6 @@ public class DriveWidget extends JComponent
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		add(lblNewLabel_1);
-		add(buttonKnowledgeTour);
 
 		fc = new JFileChooser();
 		
@@ -65,16 +62,16 @@ public class DriveWidget extends JComponent
 		setPreferredSize( new Dimension(200, 120) );
 		setMaximumSize( new Dimension(Short.MAX_VALUE, Short.MAX_VALUE) );
 		
-		JLabel lblNewLabel = new JLabel("");
-		add(lblNewLabel);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		add(lblNewLabel_2);
-		
 		JButton btnResetMap = new JButton("Reset Map");
 		btnResetMap.addActionListener( new ButtonListener(TourAction.RESET, this) );
-
-		add(btnResetMap);
+		
+				add(btnResetMap);
+		
+		JLabel label_1 = new JLabel();
+		add(label_1);
+		
+		JLabel lblNewLabel = new JLabel("");
+		add(lblNewLabel);
 
 	}
 	
