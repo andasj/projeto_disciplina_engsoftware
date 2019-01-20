@@ -1,5 +1,6 @@
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +40,15 @@ public class Robot
 	public double lastx = 0;
 	public double lasty = 0;
 	public boolean stop = false; 
+	
+	float[] esquerda = new float[] { 0.0f, -0.3f };
+	float[] desquerda = new float[] { 0.3f, -0.3f };
+	float[] direita = new float[] { 0.0f, 0.3f };
+	float[] ddireita = new float[] { 0.3f, 0.3f };
+	
+	float[] tras = new float[] { -1.0f, 0.0f };    	
+	float[] frente = new float[] { 1.0f, 0.0f };
+	
 	
 	public Robot()
 	{
@@ -148,7 +158,7 @@ public class Robot
     	for(Point p : pathCopy){
     		try {
     			stop = false;
-    			getToPoint(p.y, p.x);
+    			getToPoint(-p.y, p.x);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -203,13 +213,6 @@ public class Robot
     	System.out.println("Driving...");
     	
     	float[] ev = new float[] { 1.0f, 0.0f };
-    	float[] esquerda = new float[] { 0.0f, -0.5f };
-    	float[] desquerda = new float[] { 0.5f, -0.5f };
-    	float[] direita = new float[] { 0.0f, 0.5f };
-    	float[] ddireita = new float[] { 0.5f, 0.5f };
-    	
-    	
-    	float[] frente = new float[] { 1.0f, 0.0f };
     	// Cria Vetores na direção dos Sensores
         float[][] escapeVector = new float[][]
         {
@@ -236,7 +239,6 @@ public class Robot
         float velocity = VELOCITY;
         float rotVelocity = 0f;
         boolean wall =false;
-        boolean lwall = false;
         long time = 0;
 
         while (_com.isConnected() && _bumper.value() == false && !stop )
@@ -246,9 +248,9 @@ public class Robot
             int numEscape = 0;
             int minIndex = 0;
             float minDistance = 0.40f;
-            int sensor = 0;
-             
-             
+            int sensor = 0;            
+               
+            //getting sensors values 
             StringBuilder values = new StringBuilder();
             for (int i = 0; i < _distanceSensors.size(); ++i)
             {
@@ -267,19 +269,7 @@ public class Robot
                 }
             }
             
-            //System.out.println(values.toString());
-            
-            //if (numEscape == 2)
-            //{
-            	   // close to walls with more than one sensor, try to escape
-            	//	normalizeVector(escape);
-            		//rotate(escape, dir, 100);
-            		//velocity = SLOW_VELOCITY;
-            		//rotVelocity = 0.0f;
-            		//wall = true;
-            		 //System.out.println(dir[0]);
-            		 //System.out.println(dir[1]);
-            //}
+           
             if(numEscape == 1)
             {
             	switch(sensor)
@@ -309,7 +299,7 @@ public class Robot
             			wall = true;
             			break;
             		case 6:
-            			dir = direita;
+           				dir = direita;
             			wall = true;
             			break;
             		case 7:
@@ -330,7 +320,7 @@ public class Robot
             {
             	if(wall==true)
             	{
-                	while(time != 4) {
+                	while(time != 5) {
                 		time++;
                 	}
                 	wall=false;
@@ -338,22 +328,33 @@ public class Robot
             	}
             	else
             	{
-            		          		
-            		if(lastx >xGoal || lastx < -4.0)
+            		System.err.println("x:"+lastx+",y:"+lasty);
+            		//se atingir o x maximo, tento corrigir o y       		
+            		if(lastx >xGoal){
             			if(lasty > yGoal+0.3)
             				dir = esquerda;
-            			else if(lasty < yGoal)
+            			else if(lasty < yGoal-0.3)
             				dir =direita;
             			else
             			{
             				System.out.print("stop");
             				stop = true;
             			}
-            		else
-            			dir = frente;
+            		}
+            		//tento atingir o x
+            		else{
+            			//verifico o limite maximo do y
+            			if(lasty > yGoal)
+            				dir = esquerda;
+            			else if(lasty < -0.3)
+            				dir = direita;
+            			else
+            				dir = frente;
+            		}
             	}
             }
-            _omniDrive.setVelocity(velocity * (float)dir[0], velocity * (float)dir[1], rotVelocity);
+           	_omniDrive.setVelocity(velocity * (float)dir[0], velocity * (float)dir[1], rotVelocity);
+            
            Thread.sleep(5);            
         }
     }
